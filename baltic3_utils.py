@@ -48,6 +48,10 @@ def preorder_traverse(node, preorder_ls, verbose=True):
     Typical usage: input my_tree.cur_node, where my_tree is a baltic tree object.
     This tells preorder_traverse() to start traversal from the root.
     Prints out the order in which the nodes are visited.
+
+    Usage:
+    >>> preorder_ls = [] # init list to fill
+    >>> preorder_traverse(my_input_node, preorder_ls)
     """
     preorder_ls.append(node)
     if node.branchType == "node":
@@ -73,7 +77,7 @@ def postorder_traverse(node):
             return node.parent
 
 
-def austechia_read_tree(tree_path, make_tree_verbose=True):
+def austechia_read_tree(tree_path, make_tree_verbose=False):
     """Lifted from the austechia.ipynb, because it's the only tree-loading proc
     that's worked for me so far.
 
@@ -117,10 +121,10 @@ def austechia_read_tree(tree_path, make_tree_verbose=True):
         for k in ll.Objects:
             if isinstance(k,bt.leaf):
                 k.name=k.numName
-        highestTip=max([bt.decimalDate(x.name.strip("'").split('_')[-1],variable=True) for x in ll.Objects if isinstance(x,bt.leaf)])
+        highestTip=max([bt.decimalDate(x.name.strip("'").split('|')[-1],variable=True) for x in ll.Objects if isinstance(x,bt.leaf)])
     else: ## there's a tip name map at the beginning, so translate the names
         ll.renameTips(tips) ## give each tip a name
-        highestTip=max([bt.decimalDate(x.strip("'").split('_')[-1],variable=True) for x in tips.values()])
+        highestTip=max([bt.decimalDate(x.strip("'").split('|')[-1],variable=True) for x in tips.values()])
 
     ll.treeStats()
     ll.sortBranches(descending=False)
